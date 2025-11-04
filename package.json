@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm install --legacy-peer-deps && npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
     "start": "node dist/server/node-build.mjs",
@@ -30,8 +30,8 @@
     "jspdf": "^3.0.1",
     "next": "^14.2.12",
     "qrcode.react": "^4.2.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "wouter": "^3.7.1",
     "zod": "^3.23.8"
   },
@@ -103,7 +103,7 @@
     "tsx": "^4.7.0",
     "typescript": "^5.5.3",
     "vaul": "^0.9.3",
-    "vite": "^6.2.2",
+    "vite": "^5.4.10",
     "vitest": "^3.1.4"
   }
 }
