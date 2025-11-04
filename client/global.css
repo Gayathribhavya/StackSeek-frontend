@@ -1,0 +1,996 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 9%;
+
+    --primary: 223 100% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 6% 10%;
+
+    --destructive: 0 73% 61%;
+    --destructive-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 223 100% 65%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 95%;
+
+    --card: 240 4% 9%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 240 4% 9%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 223 100% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 73% 61%;
+    --destructive-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 223 100% 65%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  /* Remove underlines from buttons on all states */
+  button:focus,
+  button:active,
+  button:visited,
+  button[data-variant="link"]:focus,
+  button[data-variant="link"]:active,
+  button[data-variant="link"]:visited {
+    text-decoration: none !important;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 1.2s ease-in-out;
+  }
+
+  .animate-logo-beat {
+    animation: logoBeat 1s ease-in-out infinite;
+  }
+
+  .animate-slow-heartbeat {
+    animation: slowHeartbeat 1.8s ease-in-out infinite;
+  }
+
+  /*
+   * ResizeObserver Optimizations
+   * These classes help prevent ResizeObserver loop errors by:
+   * 1. Using CSS containment to isolate layout calculations
+   * 2. Enabling hardware acceleration with transform3d
+   * 3. Optimizing transitions to reduce layout thrashing
+   */
+  .sidebar-optimized {
+    contain: layout style paint;
+    will-change: transform, width;
+  }
+
+  .sidebar-transition {
+    transition:
+      width 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateZ(0); /* Force hardware acceleration */
+    backface-visibility: hidden; /* Prevent visual glitches */
+    perspective: 1000px;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) skewX(-12deg);
+    }
+    100% {
+      transform: translateX(200%) skewX(-12deg);
+    }
+  }
+
+  @keyframes logoBeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    75% {
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes slowHeartbeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .professional-button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.1);
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .professional-button:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.2);
+  }
+
+  .professional-button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.15);
+    transition: all 0.1s ease;
+  }
+
+  /* Enhanced button animation system - applies to all buttons */
+  .enhanced-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.1);
+  }
+
+  .enhanced-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.25);
+  }
+
+  .enhanced-button:active {
+    transform: translateY(0) scale(0.98);
+    transition: all 0.1s ease;
+  }
+
+  /* Shimmer effect for enhanced buttons */
+  .enhanced-button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%) skewX(-45deg);
+    transition: transform 0.6s ease;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .enhanced-button:hover::before {
+    transform: translateX(100%) skewX(-45deg);
+  }
+
+  /* Ensure button content stays above shimmer and maintains centering */
+  .enhanced-button > *:not(.sr-only) {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Special handling for icon buttons to maintain center alignment */
+  .enhanced-button[data-size="icon"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .enhanced-button[data-size="icon"] > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Ensure absolute positioned elements (like theme toggle moon) work correctly */
+  .enhanced-button > .absolute {
+    z-index: 2;
+  }
+
+  /* Special handling for primary buttons */
+  .enhanced-button.primary-gradient {
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+  }
+
+  .enhanced-button.primary-gradient:hover {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.3);
+  }
+
+  /* Icon animation within enhanced buttons */
+  .enhanced-button:hover .animate-icon {
+    animation: iconBounce 0.6s ease-in-out;
+  }
+
+  @keyframes iconBounce {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+    25% {
+      transform: translateY(-3px) scale(1.1);
+    }
+    50% {
+      transform: translateY(0) scale(1.05);
+    }
+    75% {
+      transform: translateY(-1px) scale(1.02);
+    }
+  }
+
+  /* macOS-style dock animations for sidebar icons */
+  @keyframes macOSDockBounce {
+    0% {
+      transform: scale(1) translateY(0) rotateZ(0deg);
+      transform-origin: center center;
+    }
+    15% {
+      transform: scale(1.08) translateY(-3px) rotateZ(1deg);
+      transform-origin: center center;
+    }
+    30% {
+      transform: scale(1.16) translateY(-6px) rotateZ(-0.5deg);
+      transform-origin: center center;
+    }
+    45% {
+      transform: scale(1.12) translateY(-3px) rotateZ(0.8deg);
+      transform-origin: center center;
+    }
+    60% {
+      transform: scale(1.18) translateY(-4px) rotateZ(-0.3deg);
+      transform-origin: center center;
+    }
+    75% {
+      transform: scale(1.14) translateY(-2px) rotateZ(0.2deg);
+      transform-origin: center center;
+    }
+    90% {
+      transform: scale(1.12) translateY(-1px) rotateZ(-0.1deg);
+      transform-origin: center center;
+    }
+    100% {
+      transform: scale(1.12) translateY(0) rotateZ(0deg);
+      transform-origin: center center;
+    }
+  }
+
+  @keyframes macOSDockReturn {
+    0% {
+      transform: scale(1.12) translateY(0) rotateZ(0deg);
+      transform-origin: center center;
+    }
+    50% {
+      transform: scale(1.02) translateY(1px) rotateZ(0.1deg);
+      transform-origin: center center;
+    }
+    100% {
+      transform: scale(1) translateY(0) rotateZ(0deg);
+      transform-origin: center center;
+    }
+  }
+
+  @keyframes nsMenuPopUp {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) translateY(6px) rotateX(15deg);
+      transform-origin: center center;
+      filter: blur(1.5px);
+    }
+    25% {
+      opacity: 0.6;
+      transform: scale(0.95) translateY(2px) rotateX(8deg);
+      transform-origin: center center;
+      filter: blur(0.8px);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.03) translateY(-1px) rotateX(-2deg);
+      transform-origin: center center;
+      filter: blur(0.3px);
+    }
+    75% {
+      opacity: 1;
+      transform: scale(0.99) translateY(0.5px) rotateX(1deg);
+      transform-origin: center center;
+      filter: blur(0px);
+    }
+    90% {
+      transform: scale(1.01) translateY(-0.2px) rotateX(0deg);
+      transform-origin: center center;
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0) rotateX(0deg);
+      transform-origin: center center;
+      filter: blur(0px);
+    }
+  }
+
+  @keyframes nsMenuItemAppear {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) translateX(-8px);
+    }
+    60% {
+      opacity: 0.9;
+      transform: scale(1.03) translateX(2px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  /* macOS dock-style animation classes */
+  .macos-dock-icon {
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-origin: center center;
+    will-change: transform, opacity, box-shadow;
+    backface-visibility: hidden;
+    perspective: 1000px;
+    transform-box: border-box;
+  }
+
+  /* NSMenu pop-up animation for collapsed sidebar icons */
+  [data-collapsible="icon"] .macos-dock-icon {
+    animation: nsMenuPopUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.175) forwards;
+    /* Start hidden for clean animation */
+    opacity: 0;
+    transform: scale(0.8) translateY(6px) rotateX(15deg);
+  }
+
+  /* Trigger NSMenu animation on collapse */
+  .nsmenu-trigger .macos-dock-icon {
+    animation: nsMenuPopUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.175) forwards;
+  }
+
+  /* Enhanced NSMenu appearance with shadow and backdrop */
+  [data-collapsible="icon"] .macos-dock-icon {
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Background overlay effect during NSMenu animation */
+  .nsmenu-trigger::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    border-radius: 12px;
+    opacity: 0;
+    animation: nsMenuBackgroundFade 0.6s ease-out forwards;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes nsMenuBackgroundFade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Enhanced sidebar toggle button styling */
+  [data-sidebar="trigger"] {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+
+  [data-sidebar="trigger"]:hover {
+    transform: scale(1.05) translateY(-1px);
+    box-shadow:
+      0 6px 16px rgba(59, 130, 246, 0.25),
+      0 3px 8px rgba(59, 130, 246, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  [data-sidebar="trigger"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+  }
+
+  [data-sidebar="trigger"]:hover::before {
+    opacity: 1;
+  }
+
+  /* Ensure button content stays above overlay */
+  [data-sidebar="trigger"] > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Sidebar toggle state transition */
+  [data-sidebar="trigger"] svg {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  /* Rotate icon slightly when sidebar is collapsed for visual feedback */
+  [data-state="collapsed"] [data-sidebar="trigger"] svg {
+    transform: rotate(180deg);
+  }
+
+  /* Pulse effect on sidebar toggle when state changes */
+  @keyframes sidebarTogglePulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+  }
+
+  [data-sidebar="trigger"]:active {
+    animation: sidebarTogglePulse 0.6s ease-out;
+  }
+
+  /* Override ANY rule that might hide sidebar tooltips */
+  [data-collapsible="expanded"] .sidebar-toggle-tooltip,
+  [data-collapsible="icon"] .sidebar-toggle-tooltip,
+  [data-state="expanded"] .sidebar-toggle-tooltip,
+  [data-state="collapsed"] .sidebar-toggle-tooltip,
+  [data-collapsible="expanded"] .sidebar-menu-tooltip,
+  [data-collapsible="icon"] .sidebar-menu-tooltip,
+  [data-state="expanded"] .sidebar-menu-tooltip,
+  [data-state="collapsed"] .sidebar-menu-tooltip {
+    z-index: 9999 !important;
+  }
+
+  /* Unified sidebar tooltip styling - same design for all sidebar tooltips */
+  .sidebar-menu-tooltip,
+  .sidebar-toggle-tooltip {
+    background: rgba(0, 0, 0, 0.85) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.025em !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.3),
+      0 4px 15px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    animation: tooltipSlideIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    z-index: 9999 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    position: absolute !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: max-content !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+  }
+
+  .dark .sidebar-menu-tooltip,
+  .dark .sidebar-toggle-tooltip {
+    background: rgba(40, 40, 40, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  /* Show menu tooltips only when sidebar is collapsed */
+  [data-collapsible="icon"] .sidebar-menu-tooltip,
+  [data-state="collapsed"] .sidebar-menu-tooltip {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+  }
+
+  /* Hide menu tooltips when sidebar is expanded (but not toggle tooltip) */
+  [data-collapsible="expanded"]
+    .sidebar-menu-tooltip:not(.sidebar-toggle-tooltip),
+  [data-state="expanded"] .sidebar-menu-tooltip:not(.sidebar-toggle-tooltip) {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* Toggle tooltip is always available regardless of sidebar state */
+  .sidebar-toggle-tooltip {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+
+  /* Staggered animation delays for menu items */
+  [data-collapsible="icon"] .macos-dock-icon:nth-child(1) {
+    animation-delay: 0ms;
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon:nth-child(2) {
+    animation-delay: 80ms;
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon:nth-child(3) {
+    animation-delay: 160ms;
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon:nth-child(4) {
+    animation-delay: 240ms;
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon:nth-child(5) {
+    animation-delay: 320ms;
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon:nth-child(6) {
+    animation-delay: 400ms;
+  }
+
+  /* Hover animations override NSMenu pop-up when hovering */
+  [data-collapsible="icon"] .macos-dock-icon:hover {
+    animation: macOSDockBounce 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      forwards;
+    animation-delay: 0ms !important; /* Override staggered delay on hover */
+    z-index: 10;
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon:not(:hover) {
+    animation: macOSDockReturn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      forwards;
+    animation-delay: 0ms !important; /* Override staggered delay when not hovering */
+    z-index: 1;
+  }
+
+  /* Ensure NSMenu animation completes before hover effects can trigger */
+  [data-collapsible="icon"] .macos-dock-icon {
+    animation-fill-mode: both;
+    transform-style: preserve-3d;
+  }
+
+  /* Smooth entrance animation when sidebar becomes visible */
+  [data-state="expanded"] .macos-dock-icon {
+    animation: sidebarExpand 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @keyframes sidebarExpand {
+    0% {
+      opacity: 0.7;
+      transform: translateX(-20px) scale(0.95);
+    }
+    60% {
+      opacity: 0.9;
+      transform: translateX(2px) scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  /* Enhanced active state for collapsed icons */
+  [data-collapsible="icon"] .macos-dock-icon[data-active="true"] {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.15),
+      rgba(147, 197, 253, 0.1)
+    );
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transform-origin: center center;
+    transform-box: border-box;
+  }
+
+  /* Pressed state for active icons */
+  [data-collapsible="icon"] .macos-dock-icon[data-active="true"]:active {
+    transform: scale(1.08) translateY(-1px) rotateZ(0deg);
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.2),
+      rgba(147, 197, 253, 0.15)
+    );
+    transform-origin: center center;
+    transform-box: border-box;
+    transition: all 0.1s ease-out;
+  }
+
+  /* Enhanced dock effect for collapsed sidebar */
+  [data-collapsible="icon"] .macos-dock-icon {
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 12px;
+    position: relative;
+    overflow: visible;
+    transform-origin: center center;
+    transform-box: border-box;
+    isolation: isolate;
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon:hover {
+    animation: none !important;
+    transform: scale(1.28) translateY(-5px) rotateZ(0deg);
+    filter: brightness(1.18) saturate(1.1);
+    transform-origin: center center;
+    transform-box: border-box;
+    z-index: 10;
+  }
+
+  /* Active/Click state for collapsed icons */
+  [data-collapsible="icon"] .macos-dock-icon:active {
+    animation: none !important;
+    transform: scale(1.15) translateY(-2px) rotateZ(0deg);
+    filter: brightness(1.1) saturate(1.05);
+    transform-origin: center center;
+    transform-box: border-box;
+    transition: all 0.1s ease-out;
+    z-index: 10;
+  }
+
+  /* Hover state for clickable elements inside dock icons */
+  [data-collapsible="icon"] .macos-dock-icon:hover:active {
+    transform: scale(1.12) translateY(-1px) rotateZ(0deg);
+    transform-origin: center center;
+    transform-box: border-box;
+  }
+
+  .sidebar-collapsed .macos-dock-icon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.05)
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+  }
+
+  .sidebar-collapsed .macos-dock-icon:hover::before {
+    opacity: 1;
+  }
+
+  /* Glow effect for active icons in dock mode */
+  [data-collapsible="icon"] .macos-dock-icon[data-active="true"] {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.25),
+      rgba(147, 197, 253, 0.15)
+    );
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+  }
+
+  [data-collapsible="icon"] .macos-dock-icon[data-active="true"]:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.35),
+      rgba(147, 197, 253, 0.2)
+    );
+    border: 1px solid rgba(59, 130, 246, 0.6);
+    box-shadow:
+      0 8px 25px rgba(59, 130, 246, 0.4),
+      0 4px 12px rgba(59, 130, 246, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* Magnetic effect - subtle influence on neighboring icons */
+  [data-collapsible="icon"] .macos-dock-icon:hover + .macos-dock-icon,
+  [data-collapsible="icon"] .macos-dock-icon:has(+ .macos-dock-icon:hover) {
+    transform: scale(1.06) translateY(-2px) rotateZ(0.5deg);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: brightness(1.05);
+    transform-origin: center center;
+    transform-box: border-box;
+  }
+
+  /* Secondary magnetic effect for icons 2 positions away */
+  [data-collapsible="icon"]
+    .macos-dock-icon:hover
+    + .macos-dock-icon
+    + .macos-dock-icon,
+  [data-collapsible="icon"]
+    .macos-dock-icon:has(+ .macos-dock-icon + .macos-dock-icon:hover) {
+    transform: scale(1.02) translateY(-1px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: brightness(1.02);
+    transform-origin: center center;
+    transform-box: border-box;
+  }
+
+  /* macOS-style tooltip styling */
+  .macos-tooltip {
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.3),
+      0 4px 15px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: tooltipSlideIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+  }
+
+  .dark .macos-tooltip {
+    background: rgba(40, 40, 40, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  @keyframes tooltipSlideIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) translateX(-8px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  /* Hide macos tooltips when sidebar is expanded (but not sidebar tooltips) */
+  [data-collapsible="expanded"]
+    .macos-tooltip:not(.sidebar-toggle-tooltip):not(.sidebar-menu-tooltip) {
+    display: none !important;
+  }
+
+  /* Show tooltips only when sidebar is collapsed */
+  .macos-tooltip {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure tooltips are visible when sidebar is in icon mode */
+  [data-collapsible="icon"] .macos-tooltip {
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Force show sidebar menu tooltips in collapsed state */
+  [data-collapsible="icon"] [data-radix-tooltip-content],
+  [data-state="collapsed"] [data-radix-tooltip-content] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+  }
+
+  /* Custom scrollbar styling for pro tips dialog */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+    background-clip: padding-box;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    background-clip: padding-box;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+    background-clip: padding-box;
+  }
+}
