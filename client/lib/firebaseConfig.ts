@@ -1,25 +1,26 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Firebase configuration copied from the working error‑analyzer project.
-// These values correspond to the backend project "erroranalyzerbackend" and must
-// remain in sync with your Firebase console. If you need to rotate
-// credentials, update them here as well as in the backend.
+// FRONTEND Firebase config (your StackSeek frontend firebase project)
 const firebaseConfig = {
-  apiKey: "AIzaSyAnu2nS2-OSknQAMeCOkpXpQCvVj2LodV8",
-  authDomain: "stackseek-backend.firebaseapp.com",
-  projectId: "stackseek-backend",
-  storageBucket: "stackseek-backend.firebasestorage.app",
-  messagingSenderId: "568164620056",
-  appId: "1:568164620056:web:7f6a18cf9e14e16416706d",
-  measurementId: "G-TDRBMGGGG1"
+  apiKey: "AIzaSyB9JXnOKXVJfiA-hZGTMD98XegCIXziwPY",
+  authDomain: "studio-5012646871-facfb.firebaseapp.com",
+  projectId: "studio-5012646871-facfb",
+  storageBucket: "studio-5012646871-facfb.firebasestorage.app",
+  messagingSenderId: "751817350847",
+  appId: "1:751817350847:web:63130d4e749da40259f00a"
 };
 
-// Initialize Firebase only once. The `getApps()` check prevents re‑initialization
-// when this module is imported multiple times.
+// Initialize Firebase once
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// Export the Auth and Firestore instances for use throughout the client.
+// Auth + Firestore
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+// IMPORTANT: provider with your Web Client ID
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+  client_id: "751817350847-lg3irjlqog288gk0rj6se2tp58vgglil.apps.googleusercontent.com"
+});
