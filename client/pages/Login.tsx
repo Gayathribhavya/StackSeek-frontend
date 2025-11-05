@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { auth, googleProvider, githubProvider } from "@/lib/firebaseConfig";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, OAuthProvider } from "firebase/auth";
 
 import {
   Card,
@@ -15,22 +15,19 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isGithubLoading, setIsGithubLoading] = useState(false);
+  const [isMicrosoftLoading, setIsMicrosoftLoading] = useState(false);
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userEmail", user.email!);
+      localStorage.setItem("userEmail", result.user.email!);
       window.location.href = "/connect-repository";
     } catch (err) {
-      alert("Google Login Failed");
+      alert(err);
     }
     setIsGoogleLoading(false);
   };
@@ -39,14 +36,27 @@ export default function Login() {
     setIsGithubLoading(true);
     try {
       const result = await signInWithPopup(auth, githubProvider);
-      const user = result.user;
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userEmail", user.email!);
+      localStorage.setItem("userEmail", result.user.email!);
       window.location.href = "/connect-repository";
     } catch (err) {
-      alert("GitHub Login Failed");
+      alert(err);
     }
     setIsGithubLoading(false);
+  };
+
+  const handleMicrosoftLogin = async () => {
+    setIsMicrosoftLoading(true);
+    try {
+      const microsoftProvider = new OAuthProvider("microsoft.com");
+      const result = await signInWithPopup(auth, microsoftProvider);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", result.user.email!);
+      window.location.href = "/connect-repository";
+    } catch (err) {
+      alert("Microsoft Login Failed");
+    }
+    setIsMicrosoftLoading(false);
   };
 
   return (
@@ -87,6 +97,16 @@ export default function Login() {
             className="w-full"
           >
             {isGithubLoading ? "Connecting..." : "Continue with GitHub"}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleMicrosoftLogin}
+            disabled={isMicrosoftLoading}
+            className="w-full"
+          >
+            {isMicrosoftLoading ? "Connecting..." : "Continue with Microsoft"}
           </Button>
         </CardContent>
       </Card>
